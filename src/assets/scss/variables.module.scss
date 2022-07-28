@@ -1,0 +1,35 @@
+$primary: #634bff;
+$black: #151419;
+$text-primary: #fff;
+$text-secondary: #e0ddfa;
+
+$nav-footer: #1e1c27;
+
+$bg-page-content: #1a1c20;
+
+$bg-group: #22262f;
+$bg-group-content: #191c24;
+
+$bg-calendar-primary: #23242a;
+$bg-calendar-secondary: #1d1f24;
+
+// typo
+$font: "Raleway", sans-serif;
+
+:export {
+   primary: $primary;
+   black: $black;
+   navFooter: $nav-footer;
+
+   bgPageContent: $bg-page-content;
+
+   bgGroup: $bg-group;
+   bgGroupContent: $bg-group-content;
+
+   bgCalendarPrimary: $bg-calendar-primary;
+   bgCalendarSecondary: $bg-calendar-secondary;
+
+   txtPrimary: $text-primary;
+   txtSecondary: $text-secondary;
+   font: $font;
+}
