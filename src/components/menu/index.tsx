@@ -1,12 +1,8 @@
-import React, { ReactElement, ReactText } from "react";
+import { MenuProps } from "antd";
+import React from "react";
 import StyledMenu from "./styles";
 
-interface Props {
-   items: any;
-   defaultSelectedKeys?: string[];
-   mode?: string;
-   theme?: string;
-}
+interface Props extends MenuProps {}
 
 const Menu: React.FC<Props> = (props: any) => {
    return <StyledMenu {...props} />;

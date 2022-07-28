@@ -18,6 +18,10 @@ const StyledMenu = styled(Menu)`
          border-radius: 20px;
          transition: all 0.2s ease-in-out;
 
+         &:hover {
+            background-color: ${variables.navFooter} !important;
+         }
+
          .anticon {
             font-weight: 700;
             width: 22px;
@@ -27,8 +31,9 @@ const StyledMenu = styled(Menu)`
             }
          }
          &-selected {
-            background-color: ${variables.gray} !important;
-            font-weight: 700;
+            background-color: ${variables.navFooter} !important;
+            font-weight: 600;
+            color: ${variables.txtPrimary};
 
             .anticon {
                color: ${variables.primary} !important;

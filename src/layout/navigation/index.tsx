@@ -1,5 +1,6 @@
 import React from "react";
 import variables from "../../assets/scss/variables.module.scss";
+import { devices } from "../../utils/devices";
 
 import NavHeader from "./header";
 import styled from "styled-components";
@@ -40,7 +41,21 @@ const items = [
    getItem("Settings", "6", <SettingOutlined />, null, ""),
 ];
 
-const StyledNav = styled.nav``;
+const StyledNav = styled.nav`
+   display: flex;
+   height: 100%;
+   flex-direction: column;
+
+   .ant-menu {
+      margin-top: 2rem;
+   }
+
+   @media ${devices.desktop} {
+      .ant-menu {
+         margin-top: 8rem;
+      }
+   }
+`;
 
 const Navigation: React.FC = () => {
    return (

@@ -28,10 +28,11 @@ const StyledHeader = styled.div`
          text-transform: uppercase;
          font-weight: bold;
          display: block;
-         font-size: 2rem;
+         font-size: 1.8rem;
       }
 
       .second {
+         font-size: 1.3rem;
          margin-left: 10px;
          color: ${variables.txtSecondary};
       }
