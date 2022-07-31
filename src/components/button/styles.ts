@@ -6,9 +6,23 @@ const StyledButton = styled(Button)`
    &.ant-btn {
       display: flex;
       align-items: center;
+      justify-content: center;
       background: red;
       gap: 4px;
       transition: all 0.2s ease-in-out;
+      color: ${variables.txtPrimary};
+      background-color: ${variables.primary};
+      font-weight: 700;
+      border: none;
+
+      padding: 22px;
+      font-size: 13px;
+      border-radius: 25px;
+      margin: 0;
+
+      .anticon {
+         width: 20px;
+      }
 
       &:hover {
          opacity: 0.8;
@@ -19,18 +33,20 @@ const StyledButton = styled(Button)`
       }
 
       &-lg {
-         padding: 22px 22px;
+         padding: 22px 35px;
          font-size: 13px;
-         font-weight: 700;
          border-radius: 25px;
-         color: ${variables.txtPrimary};
-         background-color: ${variables.primary};
-         border: none;
          margin: 0;
 
          .anticon {
             width: 20px;
          }
+      }
+
+      &-circle {
+         width: 45px;
+         height: 45px;
+         padding: 0;
       }
    }
 `;

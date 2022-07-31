@@ -9,7 +9,9 @@ import avatar from "../../assets/images/per1.png";
 import Button from "../../components/button";
 import { LogoutOutlined } from "@ant-design/icons";
 
-const StyledNavFooter = styled.div`
+import { motion } from "framer-motion";
+
+const StyledNavFooter = styled(motion.div)`
    display: flex;
    align-items: center;
    flex-direction: column;
@@ -58,7 +60,17 @@ const StyledNavFooter = styled.div`
 
 const NavFooter = () => {
    return (
-      <StyledNavFooter>
+      <StyledNavFooter
+         initial={{
+            x: "-100%",
+         }}
+         animate={{
+            x: 0,
+         }}
+         transition={{
+            duration: 0.8,
+         }}
+      >
          <div className="img">
             <img src={avatar} alt="" />
          </div>
@@ -67,9 +79,7 @@ const NavFooter = () => {
             <span className="email">@vanessasays</span>
          </div>
 
-         <Button size="large" icon={<LogoutOutlined />}>
-            Sign out
-         </Button>
+         <Button icon={<LogoutOutlined />}>Sign out</Button>
       </StyledNavFooter>
    );
 };

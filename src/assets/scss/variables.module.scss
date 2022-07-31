@@ -2,6 +2,7 @@ $primary: #634bff;
 $black: #151419;
 $text-primary: #fff;
 $text-secondary: #65646f;
+$text-third: #a6a6a8;
 
 $nav-footer: #1e1c27;
 
@@ -31,5 +32,7 @@ $font: "Raleway", sans-serif;
 
    txtPrimary: $text-primary;
    txtSecondary: $text-secondary;
+   txtThird: $text-third;
+
    font: $font;
 }

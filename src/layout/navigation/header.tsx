@@ -1,16 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import logo from "../../assets/images/logo.png";
+
 import variables from "../../assets/scss/variables.module.scss";
 
-const StyledHeader = styled.div`
+import { motion } from "framer-motion";
+const StyledHeader = styled(motion.div)`
    display: flex;
    align-items: center;
    justify-content: center;
-   gap: 30px;
 
    .logo {
-      width: 30px;
+      width: 100px;
       aspect-ratio: 1;
       overflow: hidden;
 
@@ -41,7 +42,17 @@ const StyledHeader = styled.div`
 
 const NavHeader = () => {
    return (
-      <StyledHeader>
+      <StyledHeader
+         initial={{
+            x: "100%",
+         }}
+         animate={{
+            x: 0,
+         }}
+         transition={{
+            duration: 0.8,
+         }}
+      >
          <div className="logo">
             <img src={logo} alt="" />
          </div>

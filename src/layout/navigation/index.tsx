@@ -1,11 +1,14 @@
 import React from "react";
+import styled from "styled-components";
+
 import variables from "../../assets/scss/variables.module.scss";
 import { devices } from "../../utils/devices";
 
 import NavHeader from "./header";
-import styled from "styled-components";
 import NavFooter from "./footer";
 import Menu from "../../components/menu";
+
+import { motion } from "framer-motion";
 
 import {
    PieChartOutlined,
@@ -47,7 +50,8 @@ const StyledNav = styled.nav`
    flex-direction: column;
 
    .ant-menu {
-      margin-top: 2rem;
+      margin-top: 3rem;
+      font-size: 1.38rem;
    }
 
    @media ${devices.desktop} {
