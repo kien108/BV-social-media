@@ -88,19 +88,17 @@ const StyledCalendarFooter = styled(Table)`
 
 interface Props {
    posts: IPost[];
+   handelSelectedPost: (id: string) => void;
 }
 
 const CalendarFooter: React.FC<Props> = (props) => {
-   const { posts } = props;
+   const { posts, handelSelectedPost } = props;
 
    const formatDate = (day: number, days: number) => {
       return day > days ? day % days : day;
    };
 
    const getPost = (date: number, days: number) => {
-      console.log(date);
-
-      posts.map((item) => console.log(typeof item.date[0].getDate()));
       const post = posts.find((post) => post.date[0].getDate() === date);
 
       return post
@@ -136,15 +134,92 @@ const CalendarFooter: React.FC<Props> = (props) => {
 
    const data = formatDataCol(2022, 8);
 
-   const handelSelectedCell = (e: any) => {
+   const handelSelectedCell = (e: any, id: string) => {
       const cells = $$(".cell");
       cells.forEach((item) => {
          item.classList.remove("cell-active");
       });
 
       e.target.closest(".cell").classList.add("cell-active");
+
+      handelSelectedPost(id);
    };
 
+   const renderCol = (
+      title: string,
+      dataIndex: string,
+      key: string,
+      weekend: boolean
+   ) => (
+      <Column
+         width={"14.285%"}
+         title={title}
+         dataIndex={dataIndex}
+         key={key}
+         render={(item) => (
+            <div
+               className={`cell ${weekend ? "cell-weekend" : ""}`}
+               onClick={(e) => handelSelectedCell(e, item.id)}
+            >
+               <span>{item?.day}</span>
+
+               {item?.images && (
+                  <Avatar.Group className="imgs">
+                     {item.images.length > 0 &&
+                        item.images.map((img: string, index: number) => (
+                           <Avatar src={img} key={index} shape="square" />
+                        ))}
+                  </Avatar.Group>
+               )}
+            </div>
+         )}
+      />
+   );
+
+   const dataCols = [
+      {
+         title: "Mon",
+         dataIndex: "mon",
+         key: "mon",
+         weekend: false,
+      },
+      {
+         title: "Tue",
+         dataIndex: "tue",
+         key: "tue",
+         weekend: false,
+      },
+      {
+         title: "Wed",
+         dataIndex: "wed",
+         key: "wed",
+         weekend: false,
+      },
+      {
+         title: "Thu",
+         dataIndex: "thu",
+         key: "thu",
+         weekend: false,
+      },
+      {
+         title: "Fri",
+         dataIndex: "fri",
+         key: "fri",
+         weekend: false,
+      },
+      {
+         title: "Sat",
+         dataIndex: "sat",
+         key: "sat",
+         weekend: true,
+      },
+      {
+         title: "Sun",
+         dataIndex: "sun",
+         key: "sun",
+         weekend: true,
+      },
+   ];
    return (
       <motion.div
          className=""
@@ -168,152 +243,10 @@ const CalendarFooter: React.FC<Props> = (props) => {
             September
          </Title>
          <StyledCalendarFooter dataSource={data} pagination={false}>
-            <Column
-               width={"14.285%"}
-               title="Mon"
-               dataIndex="mon"
-               key="mon"
-               render={(item) => (
-                  <div className="cell" onClick={(e) => handelSelectedCell(e)}>
-                     <span>{item?.day}</span>
-
-                     {item?.images && (
-                        <Avatar.Group className="imgs">
-                           {item.images.length > 0 &&
-                              item.images.map((img: string, index: number) => (
-                                 <Avatar src={img} key={index} shape="square" />
-                              ))}
-                        </Avatar.Group>
-                     )}
-                  </div>
+            {dataCols?.length > 0 &&
+               dataCols.map((item, id) =>
+                  renderCol(item.title, item.dataIndex, item.key, item.weekend)
                )}
-            />
-            <Column
-               width={"14.285%"}
-               title="Tue"
-               dataIndex="tue"
-               key="tue"
-               render={(item) => (
-                  <div className="cell" onClick={(e) => handelSelectedCell(e)}>
-                     <span>{item?.day}</span>
-
-                     {item?.images && (
-                        <Avatar.Group className="imgs">
-                           {item.images.length > 0 &&
-                              item.images.map((img: string, index: number) => (
-                                 <Avatar src={img} key={index} shape="square" />
-                              ))}
-                        </Avatar.Group>
-                     )}
-                  </div>
-               )}
-            />
-            <Column
-               width={"14.285%"}
-               title="Wed"
-               dataIndex="wed"
-               key="wed"
-               render={(item) => (
-                  <div className="cell" onClick={(e) => handelSelectedCell(e)}>
-                     <span>{item?.day}</span>
-
-                     {item?.images && (
-                        <Avatar.Group className="imgs">
-                           {item.images.length > 0 &&
-                              item.images.map((img: string, index: number) => (
-                                 <Avatar src={img} key={index} shape="square" />
-                              ))}
-                        </Avatar.Group>
-                     )}
-                  </div>
-               )}
-            />
-            <Column
-               width={"14.285%"}
-               title="Thu"
-               dataIndex="thu"
-               key="thu"
-               render={(item) => (
-                  <div className="cell" onClick={(e) => handelSelectedCell(e)}>
-                     <span>{item?.day}</span>
-
-                     {item?.images && (
-                        <Avatar.Group className="imgs">
-                           {item.images.length > 0 &&
-                              item.images.map((img: string, index: number) => (
-                                 <Avatar src={img} key={index} shape="square" />
-                              ))}
-                        </Avatar.Group>
-                     )}
-                  </div>
-               )}
-            />
-            <Column
-               width={"14.285%"}
-               title="Fri"
-               dataIndex="fri"
-               key="fri"
-               render={(item) => (
-                  <div className="cell" onClick={(e) => handelSelectedCell(e)}>
-                     <span>{item?.day}</span>
-
-                     {item?.images && (
-                        <Avatar.Group className="imgs">
-                           {item.images.length > 0 &&
-                              item.images.map((img: string, index: number) => (
-                                 <Avatar src={img} key={index} shape="square" />
-                              ))}
-                        </Avatar.Group>
-                     )}
-                  </div>
-               )}
-            />
-            <Column
-               width={"14.285%"}
-               title="Sat"
-               dataIndex="sat"
-               key="sat"
-               render={(item) => (
-                  <div
-                     className="cell cell-weekend"
-                     onClick={(e) => handelSelectedCell(e)}
-                  >
-                     <span>{item?.day}</span>
-
-                     {item?.images && (
-                        <Avatar.Group className="imgs">
-                           {item.images.length > 0 &&
-                              item.images.map((img: string, index: number) => (
-                                 <Avatar src={img} key={index} shape="square" />
-                              ))}
-                        </Avatar.Group>
-                     )}
-                  </div>
-               )}
-            />
-            <Column
-               width={"14.285%"}
-               title="Sun"
-               dataIndex="sun"
-               key="sun"
-               render={(item) => (
-                  <div
-                     className="cell cell-weekend"
-                     onClick={(e) => handelSelectedCell(e)}
-                  >
-                     <span>{item?.day}</span>
-
-                     {item?.images && (
-                        <Avatar.Group className="imgs">
-                           {item.images.length > 0 &&
-                              item.images.map((img: string, index: number) => (
-                                 <Avatar src={img} key={index} shape="square" />
-                              ))}
-                        </Avatar.Group>
-                     )}
-                  </div>
-               )}
-            />
          </StyledCalendarFooter>
       </motion.div>
    );

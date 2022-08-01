@@ -62,7 +62,7 @@ const NavFooter = () => {
    return (
       <StyledNavFooter
          initial={{
-            x: "-100%",
+            x: "100%",
          }}
          animate={{
             x: 0,

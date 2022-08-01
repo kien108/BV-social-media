@@ -84,11 +84,12 @@ const StyledPost = styled.div`
             display: flex;
             align-items: center;
             gap: 1rem;
+            margin-bottom: 1rem;
 
             .day,
             .hour {
                background-color: ${variables.bgGroupContent};
-               padding: 6px 20px;
+               padding: 8px 20px;
                border-radius: 15px;
                font-size: 1.35rem;
                font-weight: 500;

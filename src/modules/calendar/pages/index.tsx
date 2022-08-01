@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import variables from "../../../assets/scss/variables.module.scss";
@@ -101,11 +101,27 @@ const posts: IPost[] = [
       tag: ["a", "b"],
    },
 ];
+
+interface SelectedPost {
+   id: string | undefined;
+   selected: boolean;
+}
 const CalendarPage = () => {
+   const [selectedPost, setSelectedPost] = useState<SelectedPost>({
+      selected: false,
+      id: undefined,
+   });
+
+   const handelSelectedPost = (id: string) => {
+      setSelectedPost({
+         selected: true,
+         id,
+      });
+   };
    return (
       <StyledCalendarPage>
          <Row>
-            <Col span={17}>
+            <Col span={selectedPost.selected ? 17 : 24}>
                <Row gutter={[30, 30]} className="calendar-content-container">
                   <Col span={24}>
                      <CalendarHeader />
@@ -114,13 +130,18 @@ const CalendarPage = () => {
                      <CalendarContent />
                   </Col>
                   <Col span={24}>
-                     <CalendarFooter posts={posts} />
+                     <CalendarFooter
+                        posts={posts}
+                        handelSelectedPost={handelSelectedPost}
+                     />
                   </Col>
                </Row>
             </Col>
-            <Col span={7} className="post">
-               <Post />
-            </Col>
+            {selectedPost.selected && (
+               <Col span={7} className="post">
+                  <Post />
+               </Col>
+            )}
          </Row>
       </StyledCalendarPage>
    );
