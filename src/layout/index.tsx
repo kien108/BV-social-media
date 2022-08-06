@@ -5,9 +5,10 @@ import variables from "../assets/scss/variables.module.scss";
 import { devices } from "../utils/devices";
 
 import Navigation from "./navigation";
-import CalendarPage from "../modules/calendar";
 
 import { Layout as AntLayout } from "antd";
+import { Outlet } from "react-router-dom";
+
 const { Footer, Content, Sider } = AntLayout;
 
 const StyledLayout = styled(AntLayout)`
@@ -47,7 +48,7 @@ const Layout = () => {
             <Content
                style={{ backgroundColor: "#191c24", borderRadius: "40px" }}
             >
-               <CalendarPage />
+               <Outlet />
             </Content>
          </AntLayout>
       </StyledLayout>

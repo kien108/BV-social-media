@@ -2,7 +2,9 @@ import { Button } from "antd";
 import styled from "styled-components";
 import variables from "../../assets/scss/variables.module.scss";
 
-const StyledButton = styled(Button)`
+import { BtnProps } from "./";
+
+const StyledButton = styled(Button)<BtnProps>`
    &.ant-btn {
       display: flex;
       align-items: center;
@@ -19,6 +21,8 @@ const StyledButton = styled(Button)`
       font-size: 13px;
       border-radius: 25px;
       margin: 0;
+
+      width: ${(props) => (props.full ? "100%" : "auto")};
 
       .anticon {
          width: 20px;

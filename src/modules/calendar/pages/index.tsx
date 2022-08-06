@@ -118,6 +118,15 @@ const CalendarPage = () => {
          id,
       });
    };
+
+   const handelClosedPost = () => {
+      setSelectedPost({
+         selected: false,
+         id: undefined,
+      });
+   };
+   console.log("calendar selected");
+
    return (
       <StyledCalendarPage>
          <Row>
@@ -139,7 +148,7 @@ const CalendarPage = () => {
             </Col>
             {selectedPost.selected && (
                <Col span={7} className="post">
-                  <Post />
+                  <Post onClose={handelClosedPost} id={selectedPost.id} />
                </Col>
             )}
          </Row>

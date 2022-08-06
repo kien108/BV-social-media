@@ -10,6 +10,8 @@ import Menu from "../../components/menu";
 
 import { motion } from "framer-motion";
 
+import { useNavigate, Navigate } from "react-router-dom";
+
 import {
    PieChartOutlined,
    CalendarOutlined,
@@ -24,7 +26,8 @@ function getItem(
    key: string,
    icon: any,
    children: any,
-   type: string
+   type: string,
+   onClick: () => void
 ) {
    return {
       key,
@@ -32,17 +35,9 @@ function getItem(
       children,
       label,
       type,
+      onClick,
    };
 }
-
-const items = [
-   getItem("Dashboard", "1", <PieChartOutlined />, null, ""),
-   getItem("Calendar", "2", <CalendarOutlined />, null, ""),
-   getItem("Analytics", "3", <BarChartOutlined />, null, ""),
-   getItem("Ads", "4", <InfoCircleOutlined />, null, ""),
-   getItem("Campaigns", "5", <FileTextOutlined />, null, ""),
-   getItem("Settings", "6", <SettingOutlined />, null, ""),
-];
 
 const StyledNav = styled.nav`
    display: flex;
@@ -62,6 +57,29 @@ const StyledNav = styled.nav`
 `;
 
 const Navigation: React.FC = () => {
+   const navigate = useNavigate();
+
+   const items = [
+      getItem("Dashboard", "1", <PieChartOutlined />, null, "", () =>
+         navigate("/")
+      ),
+      getItem("Calendar", "2", <CalendarOutlined />, null, "", () =>
+         navigate("/calendar")
+      ),
+      getItem("Analytics", "3", <BarChartOutlined />, null, "", () =>
+         navigate("/analytics")
+      ),
+      getItem("Ads", "4", <InfoCircleOutlined />, null, "", () =>
+         navigate("/ads")
+      ),
+      getItem("Campaigns", "5", <FileTextOutlined />, null, "", () =>
+         navigate("/campaigns")
+      ),
+      getItem("Settings", "6", <SettingOutlined />, null, "", () =>
+         navigate("/settings")
+      ),
+   ];
+
    return (
       <StyledNav>
          <NavHeader />

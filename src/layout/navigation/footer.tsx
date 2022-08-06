@@ -10,6 +10,8 @@ import Button from "../../components/button";
 import { LogoutOutlined } from "@ant-design/icons";
 
 import { motion } from "framer-motion";
+import { useAppDispatch } from "../../app/hooks";
+import { logout } from "../../modules/auth/pages/login/authSlice";
 
 const StyledNavFooter = styled(motion.div)`
    display: flex;
@@ -59,6 +61,12 @@ const StyledNavFooter = styled(motion.div)`
 `;
 
 const NavFooter = () => {
+   const dispatch = useAppDispatch();
+
+   const handelLogout = () => {
+      dispatch(logout());
+   };
+
    return (
       <StyledNavFooter
          initial={{
@@ -79,7 +87,14 @@ const NavFooter = () => {
             <span className="email">@vanessasays</span>
          </div>
 
-         <Button icon={<LogoutOutlined />}>Sign out</Button>
+         <Button
+            icon={<LogoutOutlined />}
+            type="link"
+            to="login"
+            onClick={handelLogout}
+         >
+            Sign out
+         </Button>
       </StyledNavFooter>
    );
 };

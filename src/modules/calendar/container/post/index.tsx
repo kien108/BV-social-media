@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import styled from "styled-components";
 
 import post1 from "../../../../assets/images/post1.png";
 import post2 from "../../../../assets/images/post2.png";
@@ -11,19 +12,38 @@ import { IPost } from "../../interface";
 import PostItem from "../../components/postitem";
 
 import { RiDeleteBin7Line } from "react-icons/ri";
-import { AiOutlineEdit, AiOutlinePlusCircle } from "react-icons/ai";
-import styled from "styled-components";
+import {
+   AiOutlineEdit,
+   AiOutlinePlusCircle,
+   AiOutlineClose,
+} from "react-icons/ai";
 
 import { motion } from "framer-motion";
 
+const $$ = document.querySelectorAll.bind(document);
 interface Props {
-   post: IPost;
+   id: string | undefined;
+   onClose: () => void;
 }
 
 const StyledPost = styled.div`
    display: flex;
    flex-direction: column;
    gap: 20px;
+   position: relative;
+
+   .btn-close {
+      position: absolute;
+      right: -10px;
+      top: -10px;
+      color: ${variables.txtPrimary};
+      transition: color 0.1s ease-in-out;
+      cursor: pointer;
+
+      &:hover {
+         color: ${variables.primary};
+      }
+   }
 
    .post-title {
       color: ${variables.txtPrimary};
@@ -31,11 +51,33 @@ const StyledPost = styled.div`
       font-size: 1.8rem;
       font-weight: 600;
       user-select: none;
+      margin-top: 1rem;
    }
 `;
-const Post = () => {
+
+const Post: React.FC<Props> = (props) => {
+   const { onClose, id } = props;
+
+   useEffect(() => {
+      //call api getPostById
+   }, [id]);
+
+   const handelClosePost = () => {
+      const cells = $$(".cell");
+      cells.forEach((item) => {
+         item.classList.remove("cell-active");
+      });
+
+      onClose();
+   };
+
    return (
       <StyledPost>
+         <AiOutlineClose
+            className="btn-close"
+            size={"25px"}
+            onClick={handelClosePost}
+         />
          <motion.h2
             className="post-title"
             initial={{
