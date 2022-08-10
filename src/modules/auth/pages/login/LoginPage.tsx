@@ -131,7 +131,7 @@ const LoginPage = () => {
          } else if (error.originalStatus === 400) {
             setErrMessage("Missing Username or Password");
          } else if (error.originalStatus === 401) {
-            setErrMessage("Unauthorized");
+            setErrMessage("Username or Password was wrong");
          } else {
             setErrMessage("Login Failed");
          }
