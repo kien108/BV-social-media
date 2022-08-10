@@ -186,8 +186,14 @@ const RegisterPage = () => {
                         placeholder="Enter your email"
                         type="email"
                      />
-                     loading={isLoading}
-                     <Button htmlType="submit" size="large" full="true" disabled={isLoading}>
+
+                     <Button
+                        htmlType="submit"
+                        size="large"
+                        full="true"
+                        disabled={isLoading}
+                        loading={isLoading}
+                     >
                         Register
                      </Button>
                      <Title level={5} className="notify">
