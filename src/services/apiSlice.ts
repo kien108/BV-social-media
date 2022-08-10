@@ -6,7 +6,7 @@ import { COOKIES, setCookie } from "../utils/cookies";
 
 // https://jwt-auth-zeta.vercel.app
 const baseQuery = fetchBaseQuery({
-   baseUrl: "http://localhost:3500/",
+   baseUrl: "https://jwt-auth-zeta.vercel.app/",
    credentials: "include",
    prepareHeaders: (headers, { getState }) => {
       const state = getState() as RootState;
