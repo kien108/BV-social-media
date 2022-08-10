@@ -5,18 +5,89 @@ import variables from "../../../../assets/scss/variables.module.scss";
 
 import { InputField } from "../../../../components/form/formik";
 import Button from "../../../../components/button";
+import { Title } from "../../../../components/typhography";
 
-import { Typography } from "antd";
 import { Formik, Form, FastField } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
-import { useLoginMutation } from "../../services/authApiSlice";
+
+import { LoginParams, useLoginMutation } from "../../services/authApiSlice";
 import { useAppDispatch } from "../../../../app/hooks";
 import { setCredentials } from "./authSlice";
+import { ROLES } from "../../../../routes/page";
 
-const { Title } = Typography;
+const StyledForm = styled(Form)`
+   &.form-login {
+      margin: 0 auto;
+      height: 100vh;
+      background-image: linear-gradient(to right, #613785, #493694);
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-const Login = () => {
+      .container {
+         width: 400px;
+         background: ${variables.bgGroupContent};
+         padding: 30px 40px;
+         display: flex;
+         align-items: center;
+         flex-direction: column;
+         gap: 1.3rem;
+
+         border-radius: 10px;
+
+         .title {
+            color: ${variables.purple};
+            user-select: none;
+         }
+
+         .input-field {
+            .input-label {
+               color: ${variables.txtThird};
+               font-size: 1.35rem;
+               font-weight: 500;
+            }
+
+            .input-content {
+               color: black;
+               padding: 10px 12px;
+               display: block;
+               border-radius: 5px;
+               font-size: 1.5rem;
+            }
+         }
+
+         .ant-btn {
+            border-radius: 5px;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-top: 2rem;
+
+            background-color: ${variables.purple};
+         }
+
+         .notify {
+            color: ${variables.txtSecondary};
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-top: 1rem;
+            a {
+               color: ${variables.purple};
+               font-weight: 700;
+            }
+         }
+
+         .error {
+            margin-top: 0;
+            color: red;
+            font-weight: 300;
+            font-size: 1.4rem;
+         }
+      }
+   }
+`;
+
+const LoginPage = () => {
    const [errMessage, setErrMessage] = useState<string>("");
 
    const [login, { isLoading, data, error }] = useLoginMutation();
@@ -33,87 +104,27 @@ const Login = () => {
       pwd: Yup.string().required("This field is required"),
    });
 
-   const StyledForm = styled(Form)`
-      &.form-login {
-         margin: 0 auto;
-         height: 100vh;
-         background-image: linear-gradient(to right, #613785, #493694);
-         display: flex;
-         align-items: center;
-         justify-content: center;
-
-         .container {
-            width: 400px;
-            background: ${variables.bgGroupContent};
-            padding: 30px 40px;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            gap: 1.3rem;
-
-            border-radius: 10px;
-
-            .title {
-               color: ${variables.purple};
-               user-select: none;
-            }
-
-            .input-field {
-               .input-label {
-                  color: ${variables.txtThird};
-                  font-size: 1.35rem;
-                  font-weight: 500;
-               }
-
-               .input-content {
-                  color: black;
-                  padding: 10px 12px;
-                  display: block;
-                  border-radius: 5px;
-                  font-size: 1.5rem;
-               }
-            }
-
-            .ant-btn {
-               border-radius: 5px;
-               font-size: 2rem;
-               font-weight: 600;
-               margin-top: 2rem;
-
-               background-color: ${variables.purple};
-            }
-
-            .notify {
-               color: ${variables.txtSecondary};
-               font-size: 1.3rem;
-               font-weight: 500;
-               margin-top: 1rem;
-               a {
-                  color: ${variables.purple};
-                  font-weight: 700;
-               }
-            }
-
-            .error {
-               margin-top: 0;
-            }
-         }
-      }
-   `;
-
-   const handelLogin = async (values: any) => {
+   const handelLogin = async (values: LoginParams) => {
       try {
          let userData = await login(values).unwrap();
 
          dispatch(
             setCredentials({
                ...userData,
-               user: values.user,
             })
          );
 
-         navigate("/");
+         switch (userData.role) {
+            case ROLES.ADMIN:
+               navigate("/");
+               break;
+            default:
+               navigate("/calendar");
+               break;
+         }
       } catch (error: any) {
+         console.log(error);
+
          if (!error?.originalStatus) {
             // isLoading: true until timeout occurs
             setErrMessage("No Server Response");
@@ -126,6 +137,7 @@ const Login = () => {
          }
       }
    };
+
    return (
       <Formik
          initialValues={initialValue}
@@ -139,7 +151,7 @@ const Login = () => {
             return (
                <StyledForm className="form-login">
                   <div className="container">
-                     <Title className="title" level={2}>
+                     <Title className="title" level={1}>
                         Login
                      </Title>
                      <Title
@@ -164,7 +176,13 @@ const Login = () => {
                         placeholder="Enter your password"
                         type="password"
                      />
-                     <Button htmlType="submit" size="large" full={true}>
+                     <Button
+                        htmlType="submit"
+                        size="large"
+                        full="true"
+                        disabled={isLoading}
+                        loading={isLoading}
+                     >
                         Login
                      </Button>
                      <Title level={5} className="notify">
@@ -182,4 +200,4 @@ const Login = () => {
    );
 };
 
-export default Login;
+export default LoginPage;

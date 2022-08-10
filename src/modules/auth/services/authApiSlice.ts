@@ -1,9 +1,14 @@
-import { url } from "inspector";
 import { apiSlice } from "../../../services/apiSlice";
+import { IAuthRes } from "../pages/login/authSlice";
+
+export interface LoginParams {
+   user: string;
+   pwd: string;
+}
 
 export const authApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
-      login: builder.mutation({
+      login: builder.mutation<IAuthRes, LoginParams>({
          query: (credentials) => ({
             url: "/auth",
             method: "POST",

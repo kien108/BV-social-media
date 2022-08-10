@@ -9,20 +9,19 @@ const StyledButton = styled(Button)<BtnProps>`
       display: flex;
       align-items: center;
       justify-content: center;
-      background: red;
       gap: 4px;
       transition: all 0.2s ease-in-out;
       color: ${variables.txtPrimary};
-      background-color: ${variables.primary};
+      background-color: ${(props) => (props.background ? props.background : variables.primary)};
       font-weight: 700;
       border: none;
 
       padding: 22px;
       font-size: 13px;
-      border-radius: 25px;
+      border-radius: ${(props) => (props.rounded ? props.rounded : "25px")};
       margin: 0;
 
-      width: ${(props) => (props.full ? "100%" : "auto")};
+      width: ${(props) => (props.full === "true" ? "100%" : "auto")};
 
       .anticon {
          width: 20px;

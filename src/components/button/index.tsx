@@ -4,8 +4,11 @@ import { Link } from "react-router-dom";
 import StyledButton from "./styles";
 
 export interface BtnProps extends ButtonProps {
+   onClick?: () => void;
    to?: string;
-   full?: boolean;
+   full?: string;
+   background?: string;
+   rounded?: string;
 }
 
 const Button: React.FC<BtnProps> = (props) => {

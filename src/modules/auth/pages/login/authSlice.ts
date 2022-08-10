@@ -1,14 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCookie, setCookie } from "../../../../utils/cookies";
+import { COOKIES, getCookie, setCookie } from "../../../../utils/cookies";
+import { LOCAL_STORAGE, removeLocalStorage, setLocalStorage } from "../../../../utils/localstorage";
 
-interface IState {
-   user: any;
+export interface IAuthRes {
    accessToken: string | null;
+   refreshToken: string | null;
+   _id: string;
+   role: string;
 }
 
-const initialState: IState = {
-   user: getCookie("user") || null,
-   accessToken: getCookie("accessToken") || null,
+const initialState: IAuthRes = {
+   accessToken: getCookie(COOKIES.ACCESS_TOKEN) || null,
+   refreshToken: getCookie(COOKIES.REFRESH_TOKEN) || null,
+   _id: getCookie(COOKIES._ID) || "",
+   role: getCookie(COOKIES.ROLE) || "",
 };
 
 const authSlice = createSlice({
@@ -16,19 +21,29 @@ const authSlice = createSlice({
    initialState,
    reducers: {
       setCredentials: (state, action) => {
-         const { user, accessToken } = action.payload;
-         console.log(action.payload);
+         const { accessToken, refreshToken, _id, role } = action.payload;
 
-         state.user = user;
          state.accessToken = accessToken;
-         setCookie("accessToken", accessToken, 1);
-         setCookie("user", user, 1);
+         state.refreshToken = refreshToken;
+         state._id = _id;
+         state.role = role;
+
+         setCookie(COOKIES.ACCESS_TOKEN, accessToken, 1);
+         setCookie(COOKIES.REFRESH_TOKEN, refreshToken, 1);
+         setCookie(COOKIES._ID, _id, 1);
+         setCookie(COOKIES.ROLE, role, 1);
       },
       logout: (state) => {
-         state.user = null;
          state.accessToken = null;
-         setCookie("accessToken", "", 0);
-         setCookie("user", "", 0);
+         state.refreshToken = null;
+         state._id = "";
+         state.role = "";
+
+         setCookie(COOKIES.ACCESS_TOKEN, "", 0);
+         setCookie(COOKIES.REFRESH_TOKEN, "", 0);
+         setCookie(COOKIES._ID, "", 0);
+         setCookie(COOKIES.ROLE, "", 0);
+         removeLocalStorage(LOCAL_STORAGE.USER);
       },
    },
 });

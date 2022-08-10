@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { RootState } from "../app/store";
 import { setCredentials, logout } from "../modules/auth/pages/login/authSlice";
-import { setCookie } from "../utils/cookies";
+import { COOKIES, setCookie } from "../utils/cookies";
 
 const baseQuery = fetchBaseQuery({
    baseUrl: "http://localhost:3500",
@@ -21,30 +22,39 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
    let result = await baseQuery(args, api, extraOptions);
 
-   if (result?.error?.status === 403) {
+   // const error = result.error.originalStatus;
+
+   const error = result?.error as any;
+
+   if (error?.originalStatus === 403) {
       //send refresh token and get new access token
 
       const refreshResult = await baseQuery("/refresh", api, extraOptions);
 
+      console.log("result", refreshResult);
+      // dispatch action refresh
+      // catch endpoint fullfil of action refresh and update access to store
       if (refreshResult?.data) {
-         const user = api.getState().auth.user;
+         console.log(refreshResult?.data);
+         const auth = api.getState().auth;
 
          //store the new token
-
          const data = { ...(refreshResult?.data as Record<string, unknown>) };
-         const { token } = data;
+         console.log(data);
+         const { accessToken } = data;
 
          api.dispatch(
             setCredentials({
+               ...auth,
                ...data,
-               user,
             })
          );
 
-         setCookie("accessToken", <string>token, 1);
+         setCookie(COOKIES.ACCESS_TOKEN, <string>accessToken, 1);
 
          //retry the original query with new access token
          result = await baseQuery(args, api, extraOptions);
+         console.log(result);
       } else {
          api.dispatch(logout());
       }
@@ -56,5 +66,6 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
 export const apiSlice = createApi({
    reducerPath: "api",
    baseQuery: baseQueryWithReauth,
-   endpoints: (builer) => ({}),
+   tagTypes: ["User"],
+   endpoints: (builder) => ({}),
 });

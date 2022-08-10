@@ -17,6 +17,13 @@ const StyledMenu = styled(Menu)`
          padding: 23px 20px;
          border-radius: 20px;
          transition: all 0.2s ease-in-out;
+         color: ${variables.txtSecondary};
+
+         .ant-menu-title-content {
+            a {
+               color: ${variables.txtSecondary};
+            }
+         }
 
          &:hover {
             background-color: ${variables.navFooter} !important;
@@ -33,7 +40,12 @@ const StyledMenu = styled(Menu)`
          &-selected {
             background-color: ${variables.navFooter} !important;
             font-weight: 600;
-            color: ${variables.txtPrimary};
+
+            .ant-menu-title-content {
+               a {
+                  color: ${variables.txtPrimary};
+               }
+            }
 
             .anticon {
                color: ${variables.primary} !important;

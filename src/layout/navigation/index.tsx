@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styled from "styled-components";
 
 import variables from "../../assets/scss/variables.module.scss";
@@ -10,7 +10,9 @@ import Menu from "../../components/menu";
 
 import { motion } from "framer-motion";
 
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate, Navigate, Link } from "react-router-dom";
+
+import { useLocation } from "react-router-dom";
 
 import {
    PieChartOutlined,
@@ -20,24 +22,59 @@ import {
    FileTextOutlined,
    SettingOutlined,
 } from "@ant-design/icons";
+import { ROLES } from "../../routes/page";
+import { useAppSelector } from "../../app/hooks";
 
-function getItem(
-   label: string,
-   key: string,
-   icon: any,
-   children: any,
-   type: string,
-   onClick: () => void
-) {
+function getItem(label: ReactNode, key: string, icon: any, children: any, type: string) {
    return {
       key,
       icon,
       children,
       label,
       type,
-      onClick,
    };
 }
+
+enum OPTIONS_KEY {
+   DASHBOARD = "",
+   CALENDAR = "calendar",
+   ANALYTICS = "analytics",
+   ADS = "ads",
+   CAMPAIGNS = "campaigns",
+   SETTINGS = "settings",
+}
+const items = [
+   getItem(<Link to="/">Dashboard</Link>, OPTIONS_KEY.DASHBOARD, <PieChartOutlined />, null, ""),
+   getItem(
+      <Link to="/calendar">Calendar</Link>,
+      OPTIONS_KEY.CALENDAR,
+      <CalendarOutlined />,
+      null,
+      ""
+   ),
+   getItem(
+      <Link to="/analytics">Analytics</Link>,
+      OPTIONS_KEY.ANALYTICS,
+      <BarChartOutlined />,
+      null,
+      ""
+   ),
+   getItem(<Link to="/ads">Ads</Link>, OPTIONS_KEY.ADS, <InfoCircleOutlined />, null, ""),
+   getItem(
+      <Link to="/campaigns">Campaigns</Link>,
+      OPTIONS_KEY.CAMPAIGNS,
+      <FileTextOutlined />,
+      null,
+      ""
+   ),
+   getItem(
+      <Link to="/settings">Settings</Link>,
+      OPTIONS_KEY.SETTINGS,
+      <SettingOutlined />,
+      null,
+      ""
+   ),
+];
 
 const StyledNav = styled.nav`
    display: flex;
@@ -57,33 +94,17 @@ const StyledNav = styled.nav`
 `;
 
 const Navigation: React.FC = () => {
-   const navigate = useNavigate();
-
-   const items = [
-      getItem("Dashboard", "1", <PieChartOutlined />, null, "", () =>
-         navigate("/")
-      ),
-      getItem("Calendar", "2", <CalendarOutlined />, null, "", () =>
-         navigate("/calendar")
-      ),
-      getItem("Analytics", "3", <BarChartOutlined />, null, "", () =>
-         navigate("/analytics")
-      ),
-      getItem("Ads", "4", <InfoCircleOutlined />, null, "", () =>
-         navigate("/ads")
-      ),
-      getItem("Campaigns", "5", <FileTextOutlined />, null, "", () =>
-         navigate("/campaigns")
-      ),
-      getItem("Settings", "6", <SettingOutlined />, null, "", () =>
-         navigate("/settings")
-      ),
-   ];
+   const currentRole = useAppSelector((state) => state.auth.role);
+   const location = useLocation();
 
    return (
       <StyledNav>
          <NavHeader />
-         <Menu items={items} defaultSelectedKeys={["1"]} />
+         <Menu
+            items={items}
+            defaultSelectedKeys={[currentRole]}
+            selectedKeys={[location.pathname.split("/")[1]]}
+         />
          <NavFooter />
       </StyledNav>
    );

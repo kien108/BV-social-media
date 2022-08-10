@@ -10,8 +10,9 @@ import Button from "../../components/button";
 import { LogoutOutlined } from "@ant-design/icons";
 
 import { motion } from "framer-motion";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { logout } from "../../modules/auth/pages/login/authSlice";
+import { useGetUserQuery } from "../../modules/user/services/userApiSlice";
 
 const StyledNavFooter = styled(motion.div)`
    display: flex;
@@ -62,6 +63,9 @@ const StyledNavFooter = styled(motion.div)`
 
 const NavFooter = () => {
    const dispatch = useAppDispatch();
+   const userId = useAppSelector((state) => state.auth._id);
+
+   const { isLoading, data: user, error } = useGetUserQuery(userId);
 
    const handelLogout = () => {
       dispatch(logout());
@@ -82,17 +86,14 @@ const NavFooter = () => {
          <div className="img">
             <img src={avatar} alt="" />
          </div>
-         <div className="information">
-            <span className="name">Vanessa</span>
-            <span className="email">@vanessasays</span>
-         </div>
+         {user && (
+            <div className="information">
+               <span className="name">{user.username}</span>
+               <span className="email">{user.role}</span>
+            </div>
+         )}
 
-         <Button
-            icon={<LogoutOutlined />}
-            type="link"
-            to="login"
-            onClick={handelLogout}
-         >
+         <Button icon={<LogoutOutlined />} type="link" to="login" onClick={handelLogout}>
             Sign out
          </Button>
       </StyledNavFooter>

@@ -14,7 +14,9 @@ const Input: React.FC<Props> = (props) => {
 };
 
 const InputPassword: React.FC<Props> = (props) => {
-   return <StyledInputPassword {...props} />;
+   const { error } = props;
+   const status = error ? "error" : "";
+   return <StyledInputPassword {...props} status={status} />;
 };
 
 export default Input;

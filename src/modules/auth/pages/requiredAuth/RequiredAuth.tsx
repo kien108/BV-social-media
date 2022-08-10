@@ -7,13 +7,7 @@ const RequiredAuth = () => {
    const accessToken = useAppSelector((state) => state.auth.accessToken);
    const location = useLocation();
 
-   console.log(accessToken);
-
-   return accessToken ? (
-      <Outlet />
-   ) : (
-      <Navigate to="/login" state={{ from: location }} replace />
-   );
+   return accessToken ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />;
 };
 
 export default RequiredAuth;
