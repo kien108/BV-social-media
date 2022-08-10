@@ -4,8 +4,10 @@ import { RootState } from "../app/store";
 import { setCredentials, logout } from "../modules/auth/pages/login/authSlice";
 import { COOKIES, setCookie } from "../utils/cookies";
 
+// https://jwt-auth-zeta.vercel.app
 const baseQuery = fetchBaseQuery({
-   baseUrl: "https://jwt-auth-zeta.vercel.app/",
+   baseUrl: "http://localhost:3500/",
+   credentials: "include",
    prepareHeaders: (headers, { getState }) => {
       const state = getState() as RootState;
       const token = state.auth.accessToken;

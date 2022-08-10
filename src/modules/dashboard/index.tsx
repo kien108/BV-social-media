@@ -66,7 +66,7 @@ const DashboardPage = () => {
                               ))}
                         </ul>
                      </section>
-                     <Paragraph color={variables.bgGroupContent}>
+                     <Paragraph bg={variables.bgGroupContent} color={variables.txtPrimary}>
                         <strong>Rule:</strong> <br /> 1. Role admin có thể truy cập tất cả page{" "}
                         <br /> 2. Role user không được vào trang Dashboard
                      </Paragraph>
